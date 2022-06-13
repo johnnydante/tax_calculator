@@ -99,46 +99,6 @@
                 </form>
             </div>
 
-            <h4>Koszty opłacalności</h4>
-            <div class="row">
-                <div class="col-xs-6 p-2 r-5">
-                    <h5>Bez VAT'owe</h5>
-                    <ul>
-                        <li>
-                            Ryczałt: {{ isset($liniowkaCostsMin) ? 'do '.$liniowkaCostsMin : '-' }}
-                        </li>
-                        @if(isset($liniowkaCostsMax) AND ($liniowkaCostsMax > $ogolneCostsMax OR $liniowkaCostsMax - $liniowkaCostsMin > 100))
-                            <li>
-                                Liniówka: {{ $liniowkaCostsMin ? $liniowkaCostsMin.' - '.$liniowkaCostsMax : '-' }}
-                            </li>
-                        @endif
-                        @if(isset($liniowkaCostsMax) AND ($liniowkaCostsMax < $ogolneCostsMax OR $ogolneCostsMax - $ogolneCostsMin > 100))
-                            <li>
-                                Ogólne: {{ $ogolneCostsMin ? $ogolneCostsMin.' - '.$ogolneCostsMax : '-' }}
-                            </li>
-                        @endif
-                    </ul>
-                </div>
-                <div class="col-xs-6 p-2">
-                    <h5>VAT'owe</h5>
-                    <ul>
-                        <li>
-                            Ryczałt: {{ isset($liniowkaCostsMinVat) ? 'do '.$liniowkaCostsMinVat : '-' }}
-                        </li>
-                        @if(isset($liniowkaCostsMaxVat) AND ($liniowkaCostsMaxVat > $ogolneCostsMaxVat OR $liniowkaCostsMaxVat - $liniowkaCostsMinVat > 100))
-                            <li>
-                                Liniówka: {{ $liniowkaCostsMinVat ? $liniowkaCostsMinVat.' - '.$liniowkaCostsMaxVat : '-' }}
-                            </li>
-                        @endif
-                        @if(isset($liniowkaCostsMaxVat) AND ($liniowkaCostsMaxVat < $ogolneCostsMaxVat OR $ogolneCostsMaxVat - $ogolneCostsMinVat > 100))
-                            <li>
-                                Ogólne: {{ $ogolneCostsMinVat ? $ogolneCostsMinVat.' - '.$ogolneCostsMaxVat : '-' }}
-                            </li>
-                        @endif
-                    </ul>
-                </div>
-            </div>
-
             <h4>Zysk na rękę rocznie</h4>
             <div class="row">
                 <table class="table">

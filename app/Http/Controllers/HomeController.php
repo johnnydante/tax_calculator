@@ -28,7 +28,7 @@ class HomeController extends Controller
     const LINIOWKA_FEE = 0.19;
     const LINIOWKA_HEALTH_FEE = 0.049;
 
-    const OGOLNE_SMALL_FEE = 0.12;
+    const OGOLNE_SMALL_FEE = 0.17;
     const OGOLNE_BIG_FEE = 0.33;
     const OGOLNE_HEALTH_FEE = 0.09;
     const OGOLNE_FREE_FEE = 30000;
@@ -43,38 +43,16 @@ class HomeController extends Controller
         $liniowka = null;
         $ogolne = null;
         $this->request = $request->all();
-//        $this->request['liniowkaCostsMin'] = null;
-//        $this->request['ogolneCostsMin'] = null;
-//        $this->request['liniowkaCostsMax'] = null;
-//        $this->request['ogolneCostsMax'] = null;
-//        $this->request['liniowkaCostsMinVat'] = null;
-//        $this->request['ogolneCostsMinVat'] = null;
         if (isset($this->request['nettoSalary'])) {
             $this->calculateVat();
             $ryczalt = $this->calculateRyczalt();
             $liniowka = $this->calculateLiniowka();
             $ogolne = $this->calculateOgolne();
-//            $this->calculateCostsMin();
-//            if ($this->calculateLiniowka($this->request['liniowkaCostsMin']) < $this->calculateOgolne($this->request['liniowkaCostsMin'])) {
-//                $this->calculateLiniowkaCostsMax(true);
-//                $this->calculateOgolneCostsMax();
-//            } else {
-//                $this->calculateOgolneCostsMax(true);
-//                $this->calculateLiniowkaCostsMax();
-//            }
         }
         return view('welcome')->with([
             'ryczalt' => $ryczalt,
             'liniowka' => $liniowka,
             'ogolne' => $ogolne,
-//            'liniowkaCostsMin' => $this->request['liniowkaCostsMin'],
-//            'ogolneCostsMin' => $this->request['ogolneCostsMin'],
-//            'liniowkaCostsMax' => $this->request['liniowkaCostsMax'],
-//            'ogolneCostsMax' => $this->request['ogolneCostsMax'],
-//            'liniowkaCostsMinVat' => $this->request['liniowkaCostsMinVat'],
-//            'ogolneCostsMinVat' => $this->request['ogolneCostsMinVat'],
-//            'liniowkaCostsMaxVat' => $this->request['liniowkaCostsMax'],
-//            'ogolneCostsMaxVat' => $this->request['ogolneCostsMax'],
         ]);
     }
 
