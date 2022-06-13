@@ -56,55 +56,6 @@ class HomeController extends Controller
         ]);
     }
 
-    public function calculateCostsMin(): void
-    {
-        $this->request['liniowkaCostsMin'] = 0;
-        $this->request['ogolneCostsMin'] = 0;
-        $this->request['liniowkaCostsMinVat'] = 0;
-        $this->request['ogolneCostsMinVat'] = 0;
-        do {
-            $this->request['liniowkaCostsMin'] += 10;
-            $this->request['ogolneCostsMin'] += 10;
-            $ryczalt = $this->calculateRyczalt($this->request['liniowkaCostsMin']);
-            $liniowka = $this->calculateLiniowka($this->request['liniowkaCostsMin']);
-            $ogolne = $this->calculateOgolne($this->request['liniowkaCostsMin']);
-        } while ($ryczalt >= $liniowka AND $ryczalt >= $ogolne);
-        do {
-            $this->request['liniowkaCostsMinVat'] += 10;
-            $this->request['ogolneCostsMinVat'] += 10;
-            $ryczalt = $this->calculateRyczalt($this->request['liniowkaCostsMinVat'] / self::VAT);
-            $liniowka = $this->calculateLiniowka($this->request['liniowkaCostsMinVat'] / self::VAT);
-            $ogolne = $this->calculateOgolne($this->request['liniowkaCostsMinVat'] / self::VAT);
-        } while ($ryczalt >= $liniowka AND $ryczalt >= $ogolne);
-    }
-
-    public function calculateLiniowkaCostsMax($first = false): void
-    {
-        $this->request['liniowkaCostsMax'] = $this->request['liniowkaCostsMin'];
-        do {
-            $this->request['liniowkaCostsMax'] += 100;
-            if($first) {
-                $this->request['ogolneCostsMin'] += 100;
-            }
-            $liniowka = $this->calculateLiniowka($this->request['liniowkaCostsMax']);
-            $ogolne = $this->calculateOgolne($this->request['liniowkaCostsMax']);
-        } while ($liniowka >= $ogolne);
-    }
-
-    public function calculateOgolneCostsMax($first = false): void
-    {
-        $this->request['ogolneCostsMax'] = $this->request['ogolneCostsMin'];
-        do {
-            $this->request['ogolneCostsMax'] += 100;
-            if($first) {
-                $this->request['liniowkaCostsMin'] += 100;
-            }
-            $liniowka = $this->calculateLiniowka($this->request['ogolneCostsMax']);
-            $ogolne = $this->calculateOgolne($this->request['ogolneCostsMax']);
-        } while ($ogolne >= $liniowka);
-    }
-
-
     private function calculateVat(): void
     {
         $this->request['bruttoSalary'] = $this->request['nettoSalary'] * self::VAT;
