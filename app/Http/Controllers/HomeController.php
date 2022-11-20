@@ -28,8 +28,8 @@ class HomeController extends Controller
     const LINIOWKA_FEE = 0.19;
     const LINIOWKA_HEALTH_FEE = 0.049;
 
-    const OGOLNE_SMALL_FEE = 0.17;
-    const OGOLNE_BIG_FEE = 0.33;
+    const OGOLNE_SMALL_FEE = 0.12;
+    const OGOLNE_BIG_FEE = 0.32;
     const OGOLNE_HEALTH_FEE = 0.09;
     const OGOLNE_FREE_FEE = 30000;
     const OGOLNE_LEVEL_OF_SMALL_FEE = 120000;
@@ -88,7 +88,7 @@ class HomeController extends Controller
     private function getZus(): float
     {
         return 12 * match ((int)$this->request['zus']) {
-//                0 => self::SMALL_ZUS,
+//                0 => self::NO_ZUS,
                 1 => self::SMALL_ZUS,
                 2 => $this->request['health'] ? self::FULL_ZUS_WITH_HEALTH : self::FULL_ZUS_NO_HEALTH
             };
@@ -115,7 +115,7 @@ class HomeController extends Controller
         }
         if ($hasCosts) {
             $costs = ($this->request['noVatCosts']
-                + ($this->request['halfVatCosts'] / self::VAT) * 1.115
+                + (($this->request['halfVatCosts'] / self::VAT) * 1.115) * 0.75
                 + $this->request['fullVatCosts'] / self::VAT);
         }
         return $costs;
