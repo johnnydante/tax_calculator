@@ -31,14 +31,24 @@
                             <label for="nettoSalary">Roczny dochód netto</label>
                             <input type="text" class="form-control" name="nettoSalary" placeholder="0"
                                    value="{{ request('nettoSalary', 0) }}">
+                            <label class="pt-2" for="nettoSalary">Ile procent do IP-box</label>
+                            <input type="text" class="form-control" name="ipBox" placeholder="0"
+                                   value="{{ request('ipBox', 0) }}">
+                        </div>
+                        <div class="form-group col-xs-6 p-2">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </div>
                         <div class="form-group col-xs-6 p-2">
                             <label for="noVatCosts">Roczne koszty bez VAT</label>
                             <input type="text" class="form-control" name="noVatCosts" placeholder="0"
                                    value="{{ request('noVatCosts', 0) }}">
+                        </div>
+                        <div class="form-group col-xs-6 p-2">
                             <label for="halfVatCosts">Roczne koszty pół VAT</label>
                             <input type="text" class="form-control" name="halfVatCosts" placeholder="0"
                                    value="{{ request('halfVatCosts', 0) }}">
+                        </div>
+                        <div class="form-group col-xs-6 p-2">
                             <label for="fullVatCosts">Roczne koszty pełny VAT</label>
                             <input type="text" class="form-control" name="fullVatCosts" placeholder="0"
                                    value="{{ request('fullVatCosts', 0) }}">
@@ -73,6 +83,11 @@
                                     </label>
                                 </div>
                             </div>
+                        </div>
+                        <div class="form-group col-xs-6 p-2">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </div>
                         <div class="form-group col-xs-6 p-2">
                             <div class="grid-cols-1">

@@ -15,8 +15,8 @@ class HomeController extends Controller
 
 //    const NO_ZUS = 270.9;
     const SMALL_ZUS = 285.71;
-    const FULL_ZUS_NO_HEALTH = 1124.23;
-    const FULL_ZUS_WITH_HEALTH = 1211.28;
+    const FULL_ZUS_NO_HEALTH = 1485.31;
+    const FULL_ZUS_WITH_HEALTH = 1600.32;
 
     const RYCZALT_FEE = 0.12;
     const RYCZALT_MIN_HEALTH_FEE = 335.94;
@@ -33,6 +33,8 @@ class HomeController extends Controller
     const OGOLNE_HEALTH_FEE = 0.09;
     const OGOLNE_FREE_FEE = 30000;
     const OGOLNE_LEVEL_OF_SMALL_FEE = 120000;
+
+    const IP_BOX_FEE = 0.05;
 
     const VAT = 1.23;
 
@@ -97,13 +99,17 @@ class HomeController extends Controller
     private function getOgolneFee($costs): float
     {
         $taxBase = $this->request['nettoSalary'] - $this->getZus() - $this->getCosts($costs);
+        $basePercentage = 100 - $this->request['ipBox'];
+
         $bigTaxBase = 0;
         if ($taxBase > self::OGOLNE_LEVEL_OF_SMALL_FEE) {
             $bigTaxBase = $taxBase - self::OGOLNE_LEVEL_OF_SMALL_FEE;
             $taxBase = self::OGOLNE_LEVEL_OF_SMALL_FEE;
         }
-        return $bigTaxBase * self::OGOLNE_BIG_FEE
-            + ($taxBase - self::OGOLNE_FREE_FEE) * self::OGOLNE_SMALL_FEE;
+        return ($bigTaxBase * $basePercentage / 100) * self::OGOLNE_BIG_FEE
+            + (($taxBase * $basePercentage / 100) - self::OGOLNE_FREE_FEE) * self::OGOLNE_SMALL_FEE
+            + ($bigTaxBase * $this->request['ipBox'] / 100) * self::IP_BOX_FEE
+            + (($taxBase * $this->request['ipBox'] / 100) - self::OGOLNE_FREE_FEE) * self::IP_BOX_FEE;
     }
 
     private function getCosts($costs, bool $hasCosts = true): float
@@ -121,17 +127,26 @@ class HomeController extends Controller
         return $costs;
     }
 
-    private function getFee(float $feeBase, bool $hasCosts, $costs): float
+    private function getRyczaltFee(bool $hasCosts, $costs): float
     {
-        return ($this->request['nettoSalary'] - $this->getZus() - $this->getCosts($costs, $hasCosts)) * $feeBase;
+        return ($this->request['nettoSalary'] - $this->getZus() - $this->getCosts($costs, $hasCosts)) * self::RYCZALT_FEE;
+    }
+
+    private function getLiniowkaFee(bool $hasCosts, $costs): float
+    {
+        $cost = ($this->request['nettoSalary'] - $this->getZus() - $this->getCosts($costs, $hasCosts));
+        $basePercentage = 100 - $this->request['ipBox'];
+
+        return ($cost * $basePercentage / 100) * self::LINIOWKA_FEE
+            + ($cost * $this->request['ipBox'] / 100) * self::IP_BOX_FEE;
     }
 
     private function getFeeByType(int $type, $costs): float
     {
         return match ($type) {
             self::OGOLNE => $this->getOgolneFee($costs),
-            self::RYCZALT => $this->getFee(self::RYCZALT_FEE, false, $costs),
-            self::LINIOWKA => $this->getFee(self::LINIOWKA_FEE, true, $costs)
+            self::RYCZALT => $this->getRyczaltFee(false, $costs),
+            self::LINIOWKA => $this->getLiniowkaFee(true, $costs)
         };
     }
 
